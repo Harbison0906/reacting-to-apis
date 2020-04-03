@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import 'isomorphic-fetch';
 import 'es6-promise';
-// import { directive } from '@babel/types';
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      films: []
+      films: [],
+      hasLoaded: false
     }
   }
 
@@ -21,25 +21,57 @@ class App extends Component {
       });
   }
 
-  render() {
+  isLoading() {
+    this.setState({ hasLoaded: false });
+  }
+
+  toggleHasLoaded() {
+    this.setState({ hasLoaded: true });
+  }
+
+  showFilms() {
     return (
       <main>
-        {this.state.films.map(movie => {
-          return (
-            <div className="col-md-7">
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">{movie.title}</h5>
-                  <p className="card-text">{movie.description}</p>
+        <img className="mx-auto d-block" src="https://ghibliapi.herokuapp.com/images/logo.svg" alt="Studio Ghibli logo" />
+        <br />
+        <button onClick={() => this.isLoading()}>Hide Films</button>
+        <ul>
+          {this.state.films.map(movie => {
+            return (
+              <li key={movie.id}>
+                <div className="col-md-7 m-2">
+                  <div className="card">
+                    <div className="card-body">
+                      <h5 className="card-title">{movie.title}</h5>
+                      <p className="card-text">{movie.description}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          );
-        })}
+              </li>
+            );
+          })}
+        </ul>
       </main>
-
-
     )
+  }
+
+  render() {
+    if (this.state.hasLoaded) {
+      return (
+        <main>
+            <div>{this.showFilms()}</div>
+        </main>
+      );
+    } else {
+      return (
+         <div>
+          <img className="mx-auto d-block" src="https://ghibliapi.herokuapp.com/images/logo.svg" alt="Studio Ghibli logo" />
+          <br />
+          <button onClick={() => this.toggleHasLoaded()}>Load Films </button>
+        </div>
+      );
+    }
+
   }
 
 }
