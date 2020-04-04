@@ -51,7 +51,7 @@ class App extends Component {
         <img className="mx-auto d-block" src="https://ghibliapi.herokuapp.com/images/logo.svg" alt="Studio Ghibli logo" />
         <br />
         <button onClick={() => this.filmsLoading()}>Hide Films</button>
-        <button onClick={() => this.peopleLoading()}>Hide People</button>
+        <button onClick={() => this.peopleLoading()}>Load People</button>
 
         <ul>
           {this.state.films.map(movie => {
@@ -62,6 +62,7 @@ class App extends Component {
                     <div className="card-body">
                       <h5 className="card-title">{movie.title}</h5>
                       <p className="card-text">{movie.description}</p>
+                      <a href={movie.url} target="_blank" rel="noopener noreferrer">Click here for more info on this film</a>
                     </div>
                   </div>
                 </div>
@@ -71,6 +72,7 @@ class App extends Component {
         </ul>
       </main>
     )
+    this.peopleLoading();
   }
 
   showPeople() {
@@ -78,7 +80,7 @@ class App extends Component {
       <main>
         <img className="mx-auto d-block" src="https://ghibliapi.herokuapp.com/images/logo.svg" alt="Studio Ghibli logo" />
         <br />
-        <button onClick={() => this.filmsLoading()}>Hide Films</button>
+        <button onClick={() => this.filmsLoading()}>Load Films</button>
         <button onClick={() => this.peopleLoading()}>Hide People</button>
 
         <ul>
@@ -92,10 +94,8 @@ class App extends Component {
                       <ul>
                         <li>Age: {person.age}</li>
                         <li>Gender: {person.gender}</li>
-                        <li>
-                          <a href={person.url} target="_blank" />
-                        </li>
                       </ul>
+                      <a href={person.url} target="_blank" rel="noopener noreferrer">Click here for more info on this character</a>
                     </div>
                   </div>
                 </div>
@@ -105,6 +105,7 @@ class App extends Component {
         </ul>
       </main>
     )
+    this.filmsLoading();
   }
 
   noLists() {
@@ -113,7 +114,7 @@ class App extends Component {
         <img className="mx-auto d-block" src="https://ghibliapi.herokuapp.com/images/logo.svg" alt="Studio Ghibli logo" />
         <br />
         <button onClick={() => this.toggleFilmsLoaded()}>Load Films </button>
-        <button onClick={() => this.togglePeopleLoaded()}>Hide People</button>
+        <button onClick={() => this.togglePeopleLoaded()}>Load People</button>
       </div>
     );
   }
@@ -121,11 +122,12 @@ class App extends Component {
   render() {
     if (this.state.filmsLoaded) {
       return (
-          <div>{this.showFilms()}</div>
+        <div>{this.showFilms()}</div>
       );
     } else if (this.state.peopleLoaded) {
-      // <div>{this.showPeople()}</div>
-      console.log('test');
+      return (
+        <div>{this.showPeople()}</div>
+      )
     } else {
       return (
         <div>{this.noLists()}</div>
